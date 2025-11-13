@@ -7,6 +7,7 @@ public class CrosswordPresenter implements StartCrosswordOutputBoundary {
     private final CrosswordViewModel viewModel;
 
     public CrosswordPresenter(CrosswordViewModel viewModel) {
+
         this.viewModel = viewModel;
     }
 
