@@ -33,7 +33,7 @@ public class CrosswordView extends JPanel {
         answersPanel.setLayout(new BoxLayout(answersPanel, BoxLayout.Y_AXIS));
         add(answersPanel, BorderLayout.SOUTH);
 
-        // 🚀 Load puzzle BEFORE building view
+        // load puzzle before build view
         controller.startCrossword();
 
         // Build UI once from ViewModel
@@ -41,14 +41,14 @@ public class CrosswordView extends JPanel {
     }
 
     private void buildUIFromViewModel() {
-        // ---- Load local image directly ----
+        // load local image
         String imagePath = viewModel.getImagePath();
         if (imagePath != null && !imagePath.isEmpty()) {
             ImageIcon icon = new ImageIcon(imagePath);
             imageLabel.setIcon(icon);
         }
 
-        // ---- Create textfields ----
+        // create text fields
         int count = viewModel.getNumSolutions();
         for (int i = 0; i < count; i++) {
             JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
