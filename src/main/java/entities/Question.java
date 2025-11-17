@@ -7,7 +7,7 @@ package entities;
 public class Question {
     private String questionId;
     private String imagePath;
-    private int level;
+    private String type;
     private String correctAnswer;
 
     /**
@@ -15,13 +15,13 @@ public class Question {
      *
      * @param questionId    Unique identifier for the question
      * @param imagePath     Path to the question image (relative to resources)
-     * @param level         Difficulty level of the question
+     * @param type         Difficulty level of the question
      * @param correctAnswer The correct answer (A, B, C, or D)
      */
-    public Question(String questionId, String imagePath, int level, String correctAnswer) {
+    public Question(String questionId, String imagePath, String type, String correctAnswer) {
         this.questionId = questionId;
         this.imagePath = imagePath;
-        this.level = level;
+        this.type = type;
         this.correctAnswer = correctAnswer;
     }
 
@@ -41,13 +41,13 @@ public class Question {
         this.imagePath = imagePath;
     }
 
-    public int getLevel() {
-        return level;
+    public String getType() {
+        return type;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
+    // public void setLevel(int level) {
+    //    this.level = level;
+    //}
 
     public String getCorrectAnswer() {
         return correctAnswer;
