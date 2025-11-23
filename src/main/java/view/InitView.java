@@ -8,18 +8,20 @@ import javax.swing.event.DocumentListener;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class InitView extends JPanel implements PropertyChangeListener {
+public class InitView extends JPanel{
 
-    private final String viewName = "log in";
+    private final String prompt = "choose an level to start";
     private final InitViewModel initViewModel;
 
-    private final JButton logIn;
-    private final JButton cancel;
-    private InitController initController = null;
+    private final JButton submit;
+    private final JRadioButton[] options;
+    private final String[] buttonTxt;
+    private InitController initController;
 
     public InitView(InitViewModel initViewModel) {
 
@@ -30,83 +32,46 @@ public class InitView extends JPanel implements PropertyChangeListener {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
-        final JPanel buttons = new JPanel();
-        logIn = new JButton("log in");
-        buttons.add(logIn);
-        cancel = new JButton("cancel");
-        buttons.add(cancel);
+        // 创建选项按钮
+        final JPanel choices = new JPanel();
+        options = new JRadioButton[4];
+        buttonTxt = new String[] {"A", "B", "C", "D"};
+        ButtonGroup group = new ButtonGroup();
 
-        logIn.addActionListener(
+        for (int i = 0; i < options.length; i++) {
+            options[i] = new JRadioButton();
+            options[i].setText(buttonTxt[i]);
+            group.add(options[i]);
+            choices.add(options[i]);
+        }
+
+        final JPanel buttons = new JPanel();
+        submit = new JButton("submit answer");
+        buttons.add(submit);
+
+        submit.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(logIn)) {
-                            final LoginState currentState = loginViewModel.getState();
-
-                            loginController.execute(
-                                    currentState.getUsername(),
-                                    currentState.getPassword()
-                            );
+                        for (JRadioButton rb : options) {
+                            if (rb.isSelected()) {
+                                String text = rb.getText();
+                                // 将 text 发送到 usecase/interactor（通过 controller 或 viewModel）
+                                System.out.println("Selected: " + text);
+                                initController.execute(text);
+                                break;
+                            }
                         }
                     }
                 }
         );
 
-        cancel.addActionListener(this);
 
-        usernameInputField.getDocument().addDocumentListener(new DocumentListener() {
-
-            private void documentListenerHelper() {
-                final LoginState currentState = loginViewModel.getState();
-                currentState.setUsername(usernameInputField.getText());
-                loginViewModel.setState(currentState);
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-        });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        passwordInputField.getDocument().addDocumentListener(new DocumentListener() {
-
-            private void documentListenerHelper() {
-                final LoginState currentState = loginViewModel.getState();
-                currentState.setPassword(new String(passwordInputField.getPassword()));
-                loginViewModel.setState(currentState);
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-        });
 
         this.add(title);
-        this.add(usernameInfo);
-        this.add(usernameErrorField);
-        this.add(passwordInfo);
+        this.add(choices);
         this.add(buttons);
     }
 
