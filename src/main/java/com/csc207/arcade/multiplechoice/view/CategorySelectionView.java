@@ -11,7 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * 选择类别界面：直接调用 QuizController.startQuiz。
+ * View that allows the user to select a quiz category.
  */
 public class CategorySelectionView extends JFrame implements PropertyChangeListener {
     private final QuizViewModel quizViewModel;
@@ -71,6 +71,5 @@ public class CategorySelectionView extends JFrame implements PropertyChangeListe
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // 可按需处理 ViewModel 更新
     }
 }

@@ -18,16 +18,16 @@ public class QuizInteractor implements QuizInputBoundary {
 
     @Override
     public void execute(QuizInputData inputData) {
-        // 1) 读取难度（可能为 null，表示不过滤）
+        // 1) Get user-chosen category
         String category = inputData.getCategory();
 
-        // 2) 按难度（若有）抽取 15 道题
+        // 2) Get questions with respect to the chosen category
         List<QuizQuestion> questions = questionDAO.getCategorizedQuestions(category);
 
-        // 3) 建立会话
+        // 3) Build new Quiz Session
         currentSession = new QuizSession(questions);
 
-        // 4) 取第一题并构造输出
+        // 4) Get current(first) question and prepare output data
         QuizQuestion firstQuestion = currentSession.getCurrentQuestion();
         String progressLabel = String.format("Question %d/%d",
                 currentSession.getCurrentQuestionIndex() + 1,
@@ -38,7 +38,7 @@ public class QuizInteractor implements QuizInputBoundary {
                 progressLabel
         );
 
-        // 5) 通知 Presenter 刷新视图
+        // 5) Present the quiz view
         quizPresenter.prepareQuizView(outputData);
     }
 

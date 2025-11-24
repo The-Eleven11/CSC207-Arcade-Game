@@ -12,8 +12,8 @@ public class QuizViewModel {
     
     private String currentImagePath;
     private String questionProgressLabel;
-    private String feedbackState; // "CORRECT", "INCORRECT", "NONE"
-    private String incorrectButton; // "A", "B", "C", or "D"
+    private String feedbackState;
+    private String incorrectButton;
 
     public QuizViewModel() {
         this.support = new PropertyChangeSupport(this);
